@@ -10,7 +10,7 @@ const router = new Router()
 
 router.get('/install', (request, response) => {
   const { shop } = request.query
-  const authUrl = shopifyApp.token.generateAuthUrl(shop)
+  const authUrl = shopifyApp.token.generateAuthUrl(shop.replace('.myshopify.com', ''))
   return response.redirect(authUrl)
 })
 
@@ -25,6 +25,7 @@ router.get('/auth', (request, response) => {
   .then(token => shopifyApp.setTokenToDB(shop, token)
     .then(() => shopifyApp.createWebhooksIfNeeded(shop, token))
     .then(() => {
+      return response.redirect('https://www.admin.shippify.co')
       // TODO: Return redirect URL
     })
   )

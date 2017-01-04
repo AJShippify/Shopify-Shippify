@@ -41,9 +41,9 @@ class ShopifyApp {
 
   createWebhooksIfNeeded(shop, token) {
     const shopifyAPI = this.api(shop, token)
-    return shopifyAPI.list()
+    return shopifyAPI.webhook.list()
     .then(webhooks => {
-      const missingWebhooks = webhooks.filter(webhook => this.webhooks
+      const missingWebhooks = this.webhooks.filter(webhook => !webhooks
         .some(myWebhook => myWebhook.topic === webhook.topic && myWebhook.address === webhook.address)
       )
       return Promise.all(
